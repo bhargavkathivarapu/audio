@@ -92,6 +92,14 @@ else:
             extra_compile_args=eca,
             extra_objects=extra_objects,
             extra_link_args=ela),
+        CppExtension(
+            '_torch_filtering',
+            ['torchaudio/filtering.cpp'],
+            libraries=libraries,
+            include_dirs=include_dirs,
+            extra_compile_args=eca,
+            extra_objects=extra_objects,
+            extra_link_args=ela),
     ]
 
 setup(
