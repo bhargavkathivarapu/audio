@@ -1,6 +1,7 @@
 import os
 import warnings
-from typing import Any, List, Tuple
+from typing import Any, List, Tuple, Union
+from pathlib import Path
 
 import torchaudio
 from torch import Tensor
@@ -34,7 +35,7 @@ class YESNO(Dataset):
     """Create a Dataset for YesNo.
 
     Args:
-        root (str): Path to the directory where the dataset is found or downloaded.
+        root (str or Path): Path to the directory where the dataset is found or downloaded.
         url (str, optional): The URL to download the dataset from.
             (default: ``"http://www.openslr.org/resources/1/waves_yesno.tar.gz"``)
         folder_in_archive (str, optional):
@@ -48,7 +49,7 @@ class YESNO(Dataset):
     _ext_audio = ".wav"
 
     def __init__(self,
-                 root: str,
+                 root: Union[str, Path],
                  url: str = URL,
                  folder_in_archive: str = FOLDER_IN_ARCHIVE,
                  download: bool = False,
@@ -62,6 +63,8 @@ class YESNO(Dataset):
                 "`target_transform=True` to suppress this warning."
             )
 
+        # Get str representation of 'root' in case Path object is passed
+        root = os.fspath(root)
         self.transform = transform
         self.target_transform = target_transform
 
